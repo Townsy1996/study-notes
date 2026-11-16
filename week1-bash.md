@@ -23,6 +23,8 @@ Takes two inputs, first being source directory, second is destination directory.
 - On success, message is printed with the archive path
 - Finally, using find command I checked the destination directory for any fies (-f) with -name backup_*.tar.gz -mtime +7 -delete, delete any file matching that file name pattern older than 7 days
 
+Had some difficulty with stripping the full path from the file name which led me to dirname/basename workaround.
+
 Would be good to make retention period its own variable
 
 ## 3. Health Checker
@@ -30,6 +32,8 @@ Would be good to make retention period its own variable
 Takes a URL as a parameter, performs a curl on it and checks it status code, if 2xx then print success else print error
 
 - Saved the status code as a variable -- curl -s -o /dev/null -w "%{http_code}" and then used -ge && -lt 200 to 300 Simple but effective script
+
+Rather than doing if checks for every error code e.g. 200, 201, 204 etc better to do 200 - 300 check, 300 being redirection response
 
 ## 4. Deploy
 
@@ -39,3 +43,5 @@ Takes two parameters; environment and tag
 - For tag validation, using a regex pattern to again force compliance v.0-10,0-10 etc
 - Finally, if input env was "prod" script would print confirmation message making sure user wants to proceed
 - Environment and tag will then be printed
+
+Tricky figuring out regex pattern, saved it in PATTERN variable which could then be used in [[ test with =~
